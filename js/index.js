@@ -75,7 +75,7 @@ class Player extends Block {
                 }
             }
 
-            if (detectCollision(player, block1)) {
+            if (detectCollision(player, blocks)) {
                 this.maxspeed = 0;
             } else {
                 console.log('eeee')
@@ -105,20 +105,22 @@ class Maze extends Block {
 function animate() {
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    block2.draw();
+    for (let i = 0; i < blocks.length; i++) {
+        blocks[i].draw();
+    }
     player.step();
     
 }
 
-function detectCollision(player, block) {
-    if (player.x <= block.x + block.width &&
-        player.x + player.width >= block.x &&
-        player.y <= block.y + block.height &&
-        player.y + player.height >= block.y) {
-            return true;
-        } else {
-            return false;
-        }
+function detectCollision(player, blocks) {
+    for (let i = 0; i < blocks.length; i++) {
+        if (player.x <= blocks[i].x + blocks[i].width &&
+            player.x + player.width >= blocks[i].x &&
+            player.y <= blocks[i].y + blocks[i].height &&
+            player.y + player.height >= blocks[i].y) {
+                return true;
+            }
+    }
 }
 
 function setupInputs() {
@@ -147,17 +149,15 @@ function setupInputs() {
     })
 }
 
-
-const block1 = new Maze(canvas.width / 2 - 500, canvas.height / 2 + 50, 1000, 500, 'black');
-const block2 = new Maze(canvas.width / 2 - 500, canvas.height / 2 + 50, 1000, 500, 'black');
-const block3 = new Maze(canvas.width / 2 - 500, canvas.height / 2 + 50, 1000, 500, 'black');
-const block4 = new Maze(canvas.width / 2 - 500, canvas.height / 2 + 50, 1000, 500, 'black');
-
 const player = new Player(canvas.width / 2, canvas.height / 2, 15, 15, 'red');
 
-const blocks = [block1, block2, block3, block4];
-
-console.log(canvas.width);
+var blocks = [
+    new Maze(canvas.width / 2 - 500, canvas.height / 2 + 50, 1000, 500, 'black'),
+    new Maze(canvas.width / 2 - 500, canvas.height / 2 + 50, 1000, 500, 'blue'),
+    new Maze(canvas.width / 2 + 500, canvas.height / 2 - 500, 500, 2000, 'red'),
+    new Maze(canvas.width / 2 - 500, canvas.height / 2 + 300, 1000, 200, 'yellow'),
+    
+];
 
 setupInputs();
 animate();
