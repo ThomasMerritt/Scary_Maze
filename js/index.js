@@ -9,13 +9,21 @@ var keyRight;
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-class Player {
+console.log(canvas.width);
+
+class Block {
     constructor(x, y, width, height, color) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.color = color;
+    }
+}
+
+class Player extends Block {
+    constructor(x, y, width, height, color) {
+        super(x, y, width, height, color);
         this.xspeed = 0;
         this.yspeed = 0;
         this.maxspeed = 2;
@@ -66,6 +74,12 @@ class Player {
                     this.yspeed = this.maxspeed;
                 }
             }
+
+            if (detectCollision(player, block1)) {
+                this.maxspeed = 0;
+            } else {
+                console.log('eeee')
+            }
         }
 
         this.draw();
@@ -75,11 +89,36 @@ class Player {
 
 }
 
+class Maze extends Block {
+    constructor(x, y, width, height, color) {
+        super(x, y, width, height, color);
+    }
+
+    draw() {
+        ctx.beginPath();
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.fill();
+    }
+}
+
 function animate() {
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    block2.draw();
     player.step();
     
+}
+
+function detectCollision(player, block) {
+    if (player.x <= block.x + block.width &&
+        player.x + player.width >= block.x &&
+        player.y <= block.y + block.height &&
+        player.y + player.height >= block.y) {
+            return true;
+        } else {
+            return false;
+        }
 }
 
 function setupInputs() {
@@ -108,7 +147,17 @@ function setupInputs() {
     })
 }
 
-const player = new Player(50, 50, 15, 15, 'red');
+
+const block1 = new Maze(canvas.width / 2 - 500, canvas.height / 2 + 50, 1000, 500, 'black');
+const block2 = new Maze(canvas.width / 2 - 500, canvas.height / 2 + 50, 1000, 500, 'black');
+const block3 = new Maze(canvas.width / 2 - 500, canvas.height / 2 + 50, 1000, 500, 'black');
+const block4 = new Maze(canvas.width / 2 - 500, canvas.height / 2 + 50, 1000, 500, 'black');
+
+const player = new Player(canvas.width / 2, canvas.height / 2, 15, 15, 'red');
+
+const blocks = [block1, block2, block3, block4];
+
+console.log(canvas.width);
 
 setupInputs();
 animate();
