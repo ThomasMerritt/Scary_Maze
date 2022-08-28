@@ -1,8 +1,9 @@
 .GAME {
     position: absolute;
-    background-color: white;
-    display: flex;
-    margin: 7;
-    transform: translate(375%, -600%);
+    z-index: 15;
+    top: 50%;
+    left: 50%;
+    margin: -100px 0 0 -150px;
+    background: white;
     text-align: center;
 }
