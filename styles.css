@@ -7,3 +7,11 @@
     background: white;
     text-align: center;
 }
+
+.canvas {
+    position: absolute;
+    z-index: 16;
+    top: 10%;
+    left: 10%;
+    margin: -100px 0 0 -150px;
+}
